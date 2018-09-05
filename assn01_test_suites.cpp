@@ -18,11 +18,19 @@
 using std::is_sorted;
 using std::vector;
 
-TEST_CASE("Unsorted array remains sorted") {
-    vector<int> testVec{0,1,2,3,4};
+template <typename t>
+void call_and_require(t & container){
+    my_quicksort(container, container.begin(), container.end());
+    REQUIRE(is_sorted(container.begin(), container.end()));
+}
 
-    my_quicksort(testVec, testVec.begin(), testVec.end());
+TEST_CASE("Unsorted array remains sorted"){
+    SECTION("Positive Values"){
+        vector<int> testVec{0,1,2,3,4};
+        call_and_require(testVec);
+    }
+    SECTION("Negative values"){
 
-    REQUIRE(is_sorted(testVec.begin(), testVec.end()));
+    }
 
 }
