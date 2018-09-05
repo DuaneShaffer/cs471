@@ -6,7 +6,7 @@
 // Test program for quicksort algorithm
 // Used in Assignment 1
 // Uses the "Catch" unit-testing framework
-// Requires assn01_test_main.cpp, catch.hpp, assn01.h, assn01.cpp
+// Requires assn01_test_main.cpp, catch.hpp, assn01.h
 // The beginning of this file comes from previous assignments from Dr. Glen G Chappell
 #define CATCH_CONFIG_FAST_COMPILE
                            // Disable some features for faster compile
