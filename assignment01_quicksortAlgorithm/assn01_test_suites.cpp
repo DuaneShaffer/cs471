@@ -41,4 +41,8 @@ TEST_CASE("Sorted array remains sorted"){
         vector<int> testVec{0};
         call_and_require(testVec);
     }
+    SECTION("Int min and max"){
+        vector<int> testVec{INT_MIN, INT_MAX};
+        call_and_require(testVec);
+    }
 }
