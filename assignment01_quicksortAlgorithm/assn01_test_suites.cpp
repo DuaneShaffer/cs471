@@ -15,6 +15,7 @@
 #include <algorithm>
 #include "headers/assn01.h"
 #include <climits>
+#include <random>
 
 using std::is_sorted;
 using std::vector;
@@ -44,6 +45,37 @@ TEST_CASE("Sorted array remains sorted"){
     }
     SECTION("Int min and max"){
         vector<int> testVec{INT_MIN, INT_MAX};
+        call_and_require(testVec);
+    }
+}
+
+TEST_CASE("Unsorted array is sorted"){
+    // Random generation from: https://stackoverflow.com/questions/21516575/fill-a-vector-with-random-numbers-c
+    // First create an instance of an engine.
+    std::random_device rnd_device;
+    // Specify the engine and distribution.
+    std::mt19937 mersenne_engine {rnd_device()};  // Generates random integers
+    std::uniform_int_distribution<int> dist {1, 52};
+
+    auto gen = [&dist, &mersenne_engine](){
+                   return dist(mersenne_engine);
+               };
+    SECTION("Array size: 2"){
+        vector<int> testVec(2);
+        generate(begin(testVec), end(testVec), gen);
+        REQUIRE_FALSE(is_sorted(testVec.begin(), testVec.end()));
+        call_and_require(testVec);
+    }
+    SECTION("Array size: 100"){
+        vector<int> testVec(100);
+        generate(begin(testVec), end(testVec), gen);
+        REQUIRE_FALSE(is_sorted(testVec.begin(), testVec.end()));
+        call_and_require(testVec);
+    }
+    SECTION("Array size: 10000"){
+        vector<int> testVec(10000);
+        generate(begin(testVec), end(testVec), gen);
+        REQUIRE_FALSE(is_sorted(testVec.begin(), testVec.end()));
         call_and_require(testVec);
     }
 }
