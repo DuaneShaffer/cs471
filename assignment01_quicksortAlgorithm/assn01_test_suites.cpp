@@ -26,7 +26,7 @@ void call_and_require(t & container){
 
 TEST_CASE("Empty container"){
     vector<int> testVec{};
-    //CHECK_NOTHROW(my_quicksort(testVec, testVec.begin(), testVec.end());
+    call_and_require(testVec);
 }
 TEST_CASE("Sorted array remains sorted"){
     SECTION("Positive Values"){
@@ -39,10 +39,6 @@ TEST_CASE("Sorted array remains sorted"){
     }
     SECTION("Single value"){
         vector<int> testVec{0};
-        call_and_require(testVec);
-    }
-    SECTION("Int min and max"){
-        vector<int> testVec{INT_MIN, INT_MAX};
         call_and_require(testVec);
     }
 }
