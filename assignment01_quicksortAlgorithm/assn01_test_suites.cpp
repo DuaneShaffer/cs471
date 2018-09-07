@@ -14,6 +14,7 @@
 #include <vector>
 #include <algorithm>
 #include "headers/assn01.h"
+#include <climits>
 
 using std::is_sorted;
 using std::vector;
@@ -39,6 +40,10 @@ TEST_CASE("Sorted array remains sorted"){
     }
     SECTION("Single value"){
         vector<int> testVec{0};
+        call_and_require(testVec);
+    }
+    SECTION("Int min and max"){
+        vector<int> testVec{INT_MIN, INT_MAX};
         call_and_require(testVec);
     }
 }
