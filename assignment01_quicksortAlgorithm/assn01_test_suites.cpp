@@ -15,75 +15,90 @@
 #include <algorithm>
 #include "headers/assn01.h"
 #include <climits>
+#include <cfloat>
 #include <random>
 
 using std::is_sorted;
 using std::vector;
 
 template <typename t>
-void call_and_require(t & container){
+void sort_and_test(t & container){
     my_quicksort(container.begin(), container.end());
     REQUIRE(is_sorted(container.begin(), container.end()));
 }
 
+template <typename t>
+void if_sorted_change(t & container) {
+    if (is_sorted(container.begin(), container.end())){
+            std::swap(*container.begin(), *(container.end()-1));
+        }
+}
+
+template <typename t, typename u>
+void create_and_test_array_size(t size, u gen) {
+    vector<t> testVec(size);
+    generate(begin(testVec), end(testVec), gen);
+    if_sorted_change(testVec);
+    sort_and_test(testVec);
+}
+
 TEST_CASE("Empty container"){
     vector<int> testVec{};
-    call_and_require(testVec);
+    sort_and_test(testVec);
 }
 TEST_CASE("Sorted array remains sorted"){
     SECTION("Positive Values"){
         vector<int> testVec{0,1,2,3,4};
-        call_and_require(testVec);
+        sort_and_test(testVec);
     }
     SECTION("Negative values"){
         vector<int> testVec{-4,-3,-2,0};
-        call_and_require(testVec);
+        sort_and_test(testVec);
     }
     SECTION("Single value"){
         vector<int> testVec{0};
-        call_and_require(testVec);
+        sort_and_test(testVec);
     }
     SECTION("Int min and max"){
         vector<int> testVec{INT_MIN, INT_MAX};
-        call_and_require(testVec);
+        sort_and_test(testVec);
     }
 }
 
-TEST_CASE("Unsorted array is sorted"){
-    // Random generation from: https://stackoverflow.com/questions/21516575/fill-a-vector-with-random-numbers-c
+TEST_CASE("Unsorted array is sorted: int"){
+    // Random generation from: 
+    // https://stackoverflow.com/questions/21516575/fill-a-vector-with-random-numbers-c
     // First create an instance of an engine.
     std::random_device rnd_device;
     // Specify the engine and distribution.
     std::mt19937 mersenne_engine {rnd_device()};  // Generates random integers
-    std::uniform_int_distribution<int> dist {1, 52};
+    std::uniform_int_distribution<int> dist {INT_MIN, INT_MAX};
 
     auto gen = [&dist, &mersenne_engine](){
                    return dist(mersenne_engine);
                };
-    SECTION("Array size: 2"){
-        vector<int> testVec(2);
-        generate(begin(testVec), end(testVec), gen);
-        if (is_sorted(testVec.begin(), testVec.end())){
-            std::swap(*testVec.begin(), *(testVec.end()-1));
-        }
-        call_and_require(testVec);
-    }
-    SECTION("Array size: 10"){
-        vector<int> testVec(10);
-        generate(begin(testVec), end(testVec), gen);
-        REQUIRE_FALSE(is_sorted(testVec.begin(), testVec.end()));
-        call_and_require(testVec);
-    }
-    SECTION("Array size: 100"){
-        vector<int> testVec(100);
-        generate(begin(testVec), end(testVec), gen);
-        REQUIRE_FALSE(is_sorted(testVec.begin(), testVec.end()));
-        call_and_require(testVec);
-    }
-    SECTION("Array size: 10000"){
-        vector<int> testVec(10000);
-        generate(begin(testVec), end(testVec), gen);
-        REQUIRE_FALSE(is_sorted(testVec.begin(), testVec.end()));
-        call_and_require(testVec);
-    }
+
+    SECTION("Array size: 2"){ create_and_test_array_size(2, gen); }
+    SECTION("Array size: 10"){ create_and_test_array_size(10, gen); }
+    SECTION("Array size: 100"){ create_and_test_array_size(100, gen); }
+    SECTION("Array size: 10000"){ create_and_test_array_size(10000, gen); }
+}
+
+TEST_CASE("Unsorted array is sorted: double"){
+    // Random generation from: 
+    // https://stackoverflow.com/questions/21516575/fill-a-vector-with-random-numbers-c
+    // First create an instance of an engine.
+    std::random_device rnd_device;
+    // Specify the engine and distribution.
+    std::mt19937 mersenne_engine {rnd_device()};  // Generates random integers
+    std::uniform_real_distribution<double> dist {DBL_MIN, DBL_MAX};
+
+    auto gen = [&dist, &mersenne_engine](){
+                   return dist(mersenne_engine);
+               };
+
+    SECTION("Array size: 2"){ create_and_test_array_size((double) 2, gen); }
+    SECTION("Array size: 10"){ create_and_test_array_size((double)10, gen); }
+    SECTION("Array size: 100"){ create_and_test_array_size((double)100, gen); }
+    SECTION("Array size: 10000"){ create_and_test_array_size((double)10000, gen); }
 }
