@@ -5,18 +5,28 @@
 // For CS 471 Fall 2018
 // Header file for quicksort algorithm
 // Used in Assignment 1
-// Requires assn01.cpp
 
 #include <vector> 
 
-
-template <typename container, typename RAIter>
-void my_quicksort(container & input, RAIter begin, RAIter end){
+template <typename RAIter>
+RAIter my_partition(RAIter begin, RAIter end){
+    auto pivot = *(end-1);
+    auto i = begin;
+    for (auto j = begin; j < end; ++j) {
+        if (*j < pivot) {
+            std::swap(*i, *j);
+            ++i;
+        }
+    }
+    std::swap(*i, *(end-1));
+    return i;
 }
 
-template <typename container, typename RAIter>
-RAIter my_partition(container & input, RAIter begin, RAIter end){
-    return begin;
+template <typename RAIter>
+void my_quicksort(RAIter begin, RAIter end){
+    if (begin < end){
+        RAIter p = my_partition(begin, end);
+        my_quicksort(begin, p);
+        my_quicksort(p+1, end);
+    }
 }
-
-
