@@ -40,10 +40,6 @@ int main(int argc, char *argv[])
                   << std::endl;
     }
 
-    // Wait for user
-    std::cout << "Press ENTER to quit ";
-    while (std::cin.get() != '\n') ;
-
     // Program return value is return code from Catch
     return catchresult;
 }
