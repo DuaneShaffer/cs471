@@ -22,7 +22,7 @@ using std::vector;
 
 template <typename t>
 void call_and_require(t & container){
-    my_quicksort(container, container.begin(), container.end());
+    my_quicksort(container.begin(), container.end());
     REQUIRE(is_sorted(container.begin(), container.end()));
 }
 
@@ -62,6 +62,14 @@ TEST_CASE("Unsorted array is sorted"){
                };
     SECTION("Array size: 2"){
         vector<int> testVec(2);
+        generate(begin(testVec), end(testVec), gen);
+        if (is_sorted(testVec.begin(), testVec.end())){
+            std::swap(*testVec.begin(), *(testVec.end()-1));
+        }
+        call_and_require(testVec);
+    }
+    SECTION("Array size: 10"){
+        vector<int> testVec(10);
         generate(begin(testVec), end(testVec), gen);
         REQUIRE_FALSE(is_sorted(testVec.begin(), testVec.end()));
         call_and_require(testVec);
