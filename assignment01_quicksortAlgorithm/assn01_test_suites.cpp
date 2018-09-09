@@ -21,6 +21,9 @@
 using std::is_sorted;
 using std::vector;
 
+/*******************************
+ * Helper functions for test suite
+ * *********************************/
 template <typename t>
 void sort_and_test(t & container){
     my_quicksort(container.begin(), container.end());
@@ -42,6 +45,9 @@ void create_and_test_array_size(t size, u gen) {
     sort_and_test(testVec);
 }
 
+/********************************
+ * Test Cases for my_quicksort
+ * *****************************/
 TEST_CASE("Empty container"){
     vector<int> testVec{};
     sort_and_test(testVec);
