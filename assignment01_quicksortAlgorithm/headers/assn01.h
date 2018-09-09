@@ -14,11 +14,11 @@ RAIter my_partition(RAIter begin, RAIter end){
     auto i = begin;
     for (auto j = begin; j < end; ++j) {
         if (*j < pivot) {
-            std::swap(*i, *j);
+            std::iter_swap(i, j);
             ++i;
         }
     }
-    std::swap(*i, *(end-1));
+    std::iter_swap(i, (end-1));
     return i;
 }
 
