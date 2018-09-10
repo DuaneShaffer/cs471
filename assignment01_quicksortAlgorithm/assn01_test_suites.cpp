@@ -17,6 +17,7 @@
 #include <climits>
 #include <cfloat>
 #include <random>
+#include <iostream>
 
 using std::is_sorted;
 using std::vector;
@@ -107,4 +108,28 @@ TEST_CASE("Unsorted array is sorted: double"){
     SECTION("Array size: 10"){ create_and_test_array_size((double)10, gen); }
     SECTION("Array size: 100"){ create_and_test_array_size((double)100, gen); }
     SECTION("Array size: 10000"){ create_and_test_array_size((double)10000, gen); }
+}
+
+TEST_CASE("Unsorted array with a lot of repeated data"){
+    // Random generation from: 
+    // https://stackoverflow.com/questions/21516575/fill-a-vector-with-random-numbers-c
+    // First create an instance of an engine.
+    std::random_device rnd_device;
+    // Specify the engine and distribution.
+    std::mt19937 mersenne_engine {rnd_device()};  // Generates random integers
+    std::uniform_real_distribution<double> dist {DBL_MIN, DBL_MAX};
+
+    auto gen = [&dist, &mersenne_engine](){
+                   return dist(mersenne_engine);
+               };
+    unsigned int NUMTIMESTOTEST = 5;
+    for (auto i = 0; i < NUMTIMESTOTEST; ++i){
+        vector<double> testVec(10);
+        generate(begin(testVec), end(testVec), gen);
+        unsigned int AMOUNT_OF_REPEATED_DATA = 5; // Data repeated 2^(number entered) times
+        for (auto j = 0; j < AMOUNT_OF_REPEATED_DATA; ++j){
+            testVec.insert(std::end(testVec), std::begin(testVec), std::end(testVec));
+        }
+        sort_and_test(testVec);
+    }
 }
