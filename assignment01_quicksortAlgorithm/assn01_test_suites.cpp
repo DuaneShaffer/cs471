@@ -122,14 +122,15 @@ TEST_CASE("Unsorted array with a lot of repeated data"){
     auto gen = [&dist, &mersenne_engine](){
                    return dist(mersenne_engine);
                };
+
     unsigned int NUMTIMESTOTEST = 5;
     for (auto i = 0; i < NUMTIMESTOTEST; ++i){
         vector<double> testVec(10);
         generate(begin(testVec), end(testVec), gen);
+
         unsigned int AMOUNT_OF_REPEATED_DATA = 5; // Data repeated 2^(number entered) times
-        for (auto j = 0; j < AMOUNT_OF_REPEATED_DATA; ++j){
+        for (auto j = 0; j < AMOUNT_OF_REPEATED_DATA; ++j)
             testVec.insert(std::end(testVec), std::begin(testVec), std::end(testVec));
-        }
         sort_and_test(testVec);
     }
 }
