@@ -18,7 +18,6 @@ RAIter my_partition(RAIter begin, RAIter end){
             ++i;
         }
     }
-    if (*(end-1) < *i)
         std::iter_swap(i, (end-1));
     return i;
 }
