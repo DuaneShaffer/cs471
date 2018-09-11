@@ -18,7 +18,7 @@ RAIter my_partition(RAIter begin, RAIter end){
             ++i;
         }
     }
-        std::iter_swap(i, (end-1));
+    std::iter_swap(i, (end-1));
     return i;
 }
 
