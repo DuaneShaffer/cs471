@@ -6,6 +6,9 @@
 // Header file for quicksort algorithm
 // Used in Assignment 1
 
+#ifndef ASSN01_H
+#define ASSN01_H
+
 #include <vector> 
 
 template <typename RAIter>
@@ -31,3 +34,5 @@ void my_quicksort(RAIter begin, RAIter end){
         my_quicksort(p+1, end);
     }
 }
+
+#endif //ASSN01_H
